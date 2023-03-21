@@ -1,9 +1,9 @@
 <template>
     <div>
         <div v-if="!$store.state.account.id">
-            <h2><label for="">로그인</label></h2>
-            <input type="email" @keyup.enter="submit" v-model="state.form.email" placeholder="아이디를 입력하세요."><br>
-            <input type="password" @keyup.enter="submit" v-model="state.form.password" placeholder="패스워드를 입력하세요."><br>
+            <h2><label for="">Sign In</label></h2>
+            <input type="email" @keyup.enter="submit" v-model="state.form.email" placeholder="id"><br>
+            <input type="password" @keyup.enter="submit" v-model="state.form.password" placeholder="password"><br>
             <div class="login">
                 <button @click="submit()">Sign In</button>
                 <router-link to="/"><button>home</button></router-link>
@@ -11,9 +11,9 @@
         </div>
 
         <div class="logout" v-else>
-            <button><a to="/" @click="logout()">logout</a></button>
-            <router-link to="/"><button>home</button></router-link>  
-            <router-link to="/addorder"><button>제품주문</button></router-link>
+            <button><a to="/" @click="logout()">Sign Out</a></button>
+            <router-link to="/"><button>Home</button></router-link>  
+            <router-link to="/addorder"><button>Order</button></router-link>
         </div>
     </div>
 </template>
@@ -21,6 +21,7 @@
 import { computed, reactive } from 'vue';
 import axios from 'axios';
 import { useStore } from 'vuex'
+import router from '@/router';
 
 export default {
     setup() {
@@ -41,6 +42,7 @@ export default {
                 window.alert("로그인 하였습니다.");
                 console.log('결과',res);
                 store.commit('setAccount', res.data);
+                router.push({path:"/"});
             }).catch((error)=>{
                 window.alert("로그인에 실패하였습니다.");
                 console.log(error);
@@ -50,7 +52,6 @@ export default {
         const logout = () => {
             axios.post("/api/account/logout").then(()=>{
                 window.alert("로그아웃 하였습니다.");
-
                 store.commit('setAccount',0);
             }).catch((err)=>{
                 console.log(err);

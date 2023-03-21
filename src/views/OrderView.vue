@@ -1,12 +1,13 @@
 <template>
     <div>
+        <router-link to="/orderlist"><button>Order List</button></router-link>
         {{ $store.state.account.id }}
         <div v-if="$store.state.account.id">
             <div v-for="(item, idx) in state.items" :key="idx">
                 <span>{{ item.name }}</span>|
                 <span>{{ item.price }}</span>|
                 <span>{{ item.discountPer }}</span>
-                <button @click="addToCart(item.id)">제품구매</button>
+                <button @click="addToCart(item.id, $store.state.account.id)">Buy</button>
             </div>
         </div>
     </div>
@@ -30,7 +31,7 @@ export default {
         const load = () => {
             axios.get("/api/items")
                 .then(({data})=>{
-                    console.log(data);
+                    console.log("주문페이지",data);
                     state.items = data;
                 })
         };
@@ -50,7 +51,7 @@ export default {
             state.form.memberId = memberId;
             axios.post(`/api/cart/items`, state.form)
                 .then(()=>{
-
+                    console.log("success");
                 });
         };
 

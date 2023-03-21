@@ -1,14 +1,14 @@
 <template>
 <div v-if=state.items>
   <div v-if="!store.state.account.id">
-    <router-link to="/login"><button>로그인</button></router-link>
+    <router-link to="/login"><button>Sign In</button></router-link>
     <div v-for="(item, idx) in state.items" :key="idx">
       <CardInfo :item="item"/>
     </div>
   </div>
   <div v-else>
     <button @click="logout()">logout</button>
-    <router-link to="/addorder"><button>제품주문</button></router-link>
+    <router-link to="/addorder"><button>Order</button></router-link>
     <div v-for="(item, idx) in state.items" :key="idx">
       <CardInfo :item="item"/>
     </div>
@@ -46,7 +46,7 @@ export default {
 
     axios.get("/api/items").then(({data})=>{
       state.items = data;
-      console.log('데이터',data);
+      console.log("메인페이지",data);
     });
 
     return {
